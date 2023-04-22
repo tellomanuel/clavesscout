@@ -1,4 +1,4 @@
-# Claves Scout
+# Traductor de Claves Scout
 Herramienta para codificar y decodificar claves scouts
 
 
