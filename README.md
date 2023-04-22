@@ -1,9 +1,10 @@
 # Claves Scout
-Herramienta para traducir claves scout
+Herramienta para codificar y decodificar claves scouts
 
 
 ## Requerimientos
-
+- Python
+- Streamlit
 
 
 ## Detalles
@@ -24,7 +25,7 @@ pip install -r requirements.txt
 # 2. Correr la aplicación en local
 
 ```
-streamlit run  app.py
+streamlit run app.py
 ```
 
 
