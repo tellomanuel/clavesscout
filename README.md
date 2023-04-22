@@ -1,5 +1,5 @@
 # Claves Scout
-Herramienta para traducir claves scout
+Herramienta para codificar y decodificar claves scouts
 
 
 ## Requerimientos
