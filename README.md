@@ -3,7 +3,8 @@ Herramienta para codificar y decodificar claves scouts
 
 
 ## Requerimientos
-
+- Python
+- Streamlit
 
 
 ## Detalles
