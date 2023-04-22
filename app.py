@@ -111,7 +111,7 @@ for key in cenitpolar_dict.keys() :
     inv_cenitpolar_dict[val] = key
 
 cajon_dict = {
-    'A': 'clave_cajon\_a.png', 
+    'A': 'clave_cajon/_a.png', 
     'B': 'clave_cajon\_b.png', 
     'C': 'clave_cajon\_c.png',     
     'D': 'clave_cajon\_d.png', 
