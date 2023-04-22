@@ -4,7 +4,13 @@ import PIL.Image
 import unicodedata
 import string
 
-
+# Page config
+st.set_page_config(
+	page_title="Traductor Scout",
+	page_icon="random",
+	layout="centered",
+	initial_sidebar_state="expanded",
+	)
 
 # Oculto botones de Streamlit - fondo de sidebar
 hide_streamlit_style = """
@@ -104,6 +110,36 @@ for key in cenitpolar_dict.keys() :
     val = cenitpolar_dict[key]
     inv_cenitpolar_dict[val] = key
 
+cajon_dict = {
+    'A': 'clave_cajon\_a.png', 
+    'B': 'clave_cajon\_b.png', 
+    'C': 'clave_cajon\_c.png',     
+    'D': 'clave_cajon\_d.png', 
+    'E': 'clave_cajon\_e.png', 
+    'F': 'clave_cajon\_f.png', 
+    'G': 'clave_cajon\_g.png', 
+    'H': 'clave_cajon\_h.png', 
+    'I': 'clave_cajon\_i.png', 
+    'J': 'clave_cajon\_j.png',    
+    'K': 'clave_cajon\_k.png',
+    'L': 'clave_cajon\_l.png', 
+    'M': 'clave_cajon\_m.png', 
+    'N': 'clave_cajon\_n.png', 
+    'Ñ': 'clave_cajon\_nn.png',    
+    'O': 'clave_cajon\_o.png',
+    'P': 'clave_cajon\_p.png', 
+    'Q': 'clave_cajon\_q.png', 
+    'R': 'clave_cajon\_r.png', 
+    'S': 'clave_cajon\_s.png',    
+    'T': 'clave_cajon\_t.png',
+    'U': 'clave_cajon\_u.png', 
+    'V': 'clave_cajon\_v.png', 
+    'W': 'clave_cajon\_w.png', 
+    'X': 'clave_cajon\_x.png',    
+    'Y': 'clave_cajon\_y.png',
+    'Z': 'clave_cajon\_z.png',
+    ' ': 'clave_cajon\_espacio.png',
+}
 
 # Funciones
 
@@ -167,17 +203,6 @@ def murcielago_to_text(text_to_decode):
             text_decoded += char.upper() 
     return text_decoded
 
-def murcielago_to_text2(murcielago_text):
-    text = ''
-    murcielago_list = murcielago_text.split(' ')
-    for murcielago_char in murcielago_list:
-        for key, value in murcielago_dict.items():
-            if value == murcielago_char:
-                text += key
-                break
-        else:
-            text += murcielago_char
-    return text
 
 # CENIT POLAR
 # Convertir texto a Cenit
@@ -200,14 +225,30 @@ def cenitpolar_to_text(text_to_decode):
             text_decoded += char.upper() 
     return text_decoded
 
+# CAJON
+# Convertir texto a cajon
+def text_to_cajon(text_to_encode):
+    URL_images_encoded = []
+    for char in text_to_encode:
+        if char.upper() in cajon_dict:
+            imagen_char =cajon_dict[char.upper()]
+            URL_images_encoded.append(imagen_char)
+           
+        else:
+            URL_images_encoded += char
+
+    return URL_images_encoded
+
+
+# Logo sidebar
 image =  PIL.Image.open('logoscoutscol.png')
 st.sidebar.image(image,width=None, use_column_width=None )
 
 with st.sidebar:
     selected = option_menu(
             menu_title="Claves  Scout",  # required
-            options=["Home", "Morse", "Murciélago", "Cenit Polar","Contacto"],  # required
-            icons=["house", "caret-right-fill",  "caret-right-fill", "caret-right-fill","envelope"],  # optional
+            options=["Home", "Morse", "Murciélago", "Cenit Polar", "Cajón","Contacto"],  # required
+            icons=["house", "caret-right-fill",  "caret-right-fill",  "caret-right-fill", "caret-right-fill","envelope"],  # optional
             menu_icon="upc-scan",  # optional
             default_index=0,  # optional
         )
@@ -224,25 +265,21 @@ if selected == "Home":
 
 if selected == "Morse":
     st.title(f"Clave {selected}")
-
-
     # Get user input
     choice = st.selectbox("Select Translation Direction", ["Text to Morse", "Morse to Text"])
     if choice == "Text to Morse":
-        text_input = st.text_input("Enter the text you want to translate")
-        if st.button("Translate"):
+        text_input = st.text_input("Ingrese el texto a codificar")
+        if st.button("Codificar"):
             text_without_accents=remove_spanish_accents(text_input)
             text_without_marks=remove_punctuation(text_without_accents)
             morse_output = text_to_morse(text_without_marks)
-            st.write("Morse code translation:")
+            st.write("Texto codificado:")
             st.write(morse_output)
     elif choice == "Morse to Text":
-        morse_input = st.text_input("Enter the Morse code you want to translate")
-        if st.button("Translate"):
+        morse_input = st.text_input("Ingrese el texto a decodificar")
+        if st.button("Decodificar"):
             text_output = morse_to_text(morse_input)
-
-            
-            st.write("Text translation:")
+            st.write("Texto decodificado:")
             st.write(text_output)
 
 if selected == "Murciélago":
@@ -250,18 +287,18 @@ if selected == "Murciélago":
     choice = st.selectbox("Select Translation Direction", ["Text to Murciélago", "Murciélago to Text"])
 
     if choice == "Text to Murciélago":
-        text_input = st.text_input("Enter the text you want to code")
-        if st.button("Translate"):
+        text_input = st.text_input("Ingrese el texto a codificar")
+        if st.button("Codificar"):
             text_without_accents=remove_spanish_accents(text_input)
             text_without_marks=remove_punctuation(text_without_accents)
             text_output = text_to_murcielago(text_without_marks)
-            st.write("Murciélago code translation:")
+            st.write("Texto codificado:")
             st.write(text_output)
     elif choice == "Murciélago to Text":
-        text_input = st.text_input("Enter the Murciélago code you want to decode")
-        if st.button("Translate"):
+        text_input = st.text_input("Ingrese el texto a decodificar")
+        if st.button("Decodificar"):
             text_output = murcielago_to_text(text_input)
-            st.write("Text translation:")
+            st.write("Texto decodificado:")
             st.write(text_output)
 
 if selected == "Cenit Polar":
@@ -269,19 +306,36 @@ if selected == "Cenit Polar":
     choice = st.selectbox("Select Translation Direction", ["Text to Cenit Polar", "Cenit Polar to Text"])
 
     if choice == "Text to Cenit Polar":
-        text_input = st.text_input("Enter the text you want to translate")
-        if st.button("Translate"):
+        text_input = st.text_input("Ingrese el texto a codificar")
+        if st.button("Codificar"):
             text_without_accents=remove_spanish_accents(text_input)
             text_without_marks=remove_punctuation(text_without_accents)
             text_output = text_to_cenitpolar(text_without_marks)
-            st.write("Morse code translation:")
+            st.write("Texto codificado:")
             st.write(text_output)
     elif choice == "Cenit Polar to Text":
-        text_input = st.text_input("Enter the Morse code you want to translate")
-        if st.button("Translate"):
+        text_input = st.text_input("Ingrese el texto a decodificar")
+        if st.button("Decodificar"):
             text_output = cenitpolar_to_text(text_input)
-            st.write("Text translation:")
+            st.write("Texto decodificado:")
             st.write(text_output)
+
+if selected == "Cajón":
+    st.title(f"Clave {selected}")
+    choice = st.selectbox("Select Translation Direction", ["Text to Cajón"])
+
+    if choice == "Text to Cajón":
+        text_input = st.text_input("Ingrese el texto a codificar")
+        if st.button("Codificar"):
+            text_without_accents=remove_spanish_accents(text_input)
+            text_without_marks=remove_punctuation(text_without_accents)
+            text_output = text_to_cajon(text_without_marks)
+            st.write("Texto codificado:")
+            #st.write(text_output)
+            #st.image(image,width=None, use_column_width=True )
+            st.image(text_output, width=40, use_column_width=False)
+
+
 
 if selected == "opcion2":
     st.title(f"You have selected {selected}")
