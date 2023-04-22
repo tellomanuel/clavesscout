@@ -3,8 +3,9 @@ Herramienta para codificar y decodificar claves scouts
 
 
 ## Requerimientos
-- Python
-- Streamlit
+- python 9 o 10
+- streamlit
+- streamlit_option_menu-menu
 
 
 ## Detalles
@@ -12,7 +13,10 @@ Herramienta para codificar y decodificar claves scouts
 
 
 ## Instrucciones
-
+- Ingresar a: https://clavescout.streamlit.app/
+- Si la aplicación está dormida deberás despertarla
+- Selecciona la clave en el menú de la izquierda
+- Nota: Las claves gráficas como la cajón sólo permiten codificar, no es posible decodificarla
 
 
 # 1. Instalar requerimientos y dependencias
