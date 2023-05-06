@@ -3,6 +3,10 @@ from streamlit_option_menu import option_menu
 import PIL.Image
 import unicodedata
 import string
+import matplotlib.pyplot as plt
+import numpy as np
+
+
 
 # Page config
 st.set_page_config(
@@ -141,6 +145,68 @@ cajon_dict = {
     ' ': 'clave_cajon/_espacio.png',
 }
 
+palitos_dict = {
+    'A': 'clave_palitos/_a.png', 
+    'B': 'clave_palitos/_b.png', 
+    'C': 'clave_palitos/_c.png',     
+    'D': 'clave_palitos/_d.png', 
+    'E': 'clave_palitos/_e.png', 
+    'F': 'clave_palitos/_f.png', 
+    'G': 'clave_palitos/_g.png', 
+    'H': 'clave_palitos/_h.png', 
+    'I': 'clave_palitos/_i.png', 
+    'J': 'clave_palitos/_j.png',    
+    'K': 'clave_palitos/_k.png',
+    'L': 'clave_palitos/_l.png', 
+    'M': 'clave_palitos/_m.png', 
+    'N': 'clave_palitos/_n.png', 
+    'Ñ': 'clave_palitos/_nn.png',    
+    'O': 'clave_palitos/_o.png',
+    'P': 'clave_palitos/_p.png', 
+    'Q': 'clave_palitos/_q.png', 
+    'R': 'clave_palitos/_r.png', 
+    'S': 'clave_palitos/_s.png',    
+    'T': 'clave_palitos/_t.png',
+    'U': 'clave_palitos/_u.png', 
+    'V': 'clave_palitos/_v.png', 
+    'W': 'clave_palitos/_w.png', 
+    'X': 'clave_palitos/_x.png',    
+    'Y': 'clave_palitos/_y.png',
+    'Z': 'clave_palitos/_z.png',
+    ' ': 'clave_palitos/_espacio.png',
+}
+
+electro_dict = {
+    'A': 27, 
+    'B': 26, 
+    'C': 25,     
+    'D': 24, 
+    'E': 23, 
+    'F': 22, 
+    'G': 21, 
+    'H': 20, 
+    'I': 19, 
+    'J': 18,    
+    'K': 17,
+    'L': 16, 
+    'M': 15, 
+    'N': 14, 
+    'Ñ': 13,    
+    'O': 12,
+    'P': 11, 
+    'Q': 10, 
+    'R': 9, 
+    'S': 8,    
+    'T': 7,
+    'U': 6, 
+    'V': 5, 
+    'W': 4, 
+    'X': 3,    
+    'Y': 2,
+    'Z': 1,
+    ' ': 0,
+}
+
 # Funciones
 
 # Quitar signos de puntuación 
@@ -239,6 +305,44 @@ def text_to_cajon(text_to_encode):
 
     return URL_images_encoded
 
+# PALITOS
+# Convertir texto a palitos
+def text_to_palitos(text_to_encode):
+    URL_images_encoded = []
+    for char in text_to_encode:
+        if char.upper() in palitos_dict:
+            imagen_char =palitos_dict[char.upper()]
+            URL_images_encoded.append(imagen_char)
+           
+        else:
+            URL_images_encoded += char
+
+    return URL_images_encoded
+
+# ELECTROCARDIOGRAMA
+# Convertir texto a electrocardiograma
+def text_to_electro(text_to_encode):
+    URL_images_encoded = []
+    for char in text_to_encode:
+        if char.upper() in electro_dict:
+            imagen_char =electro_dict[char.upper()]
+            URL_images_encoded.append(imagen_char)
+           
+        else:
+            URL_images_encoded += char
+
+    return URL_images_encoded
+
+
+def text_to_electro(text_to_encode):
+    text_encoded = []
+    for char in text_to_encode:
+        if char.upper() in electro_dict:
+            text_encoded.append(electro_dict[char.upper()])
+        else:
+            text_encoded.append(char.upper())
+    return text_encoded
+
 
 # Logo sidebar
 image =  PIL.Image.open('logoscoutscol.png')
@@ -247,8 +351,8 @@ st.sidebar.image(image,width=None, use_column_width=None )
 with st.sidebar:
     selected = option_menu(
             menu_title="Claves  Scout",  # required
-            options=["Home", "Morse", "Murciélago", "Cenit Polar", "Cajón","Contacto"],  # required
-            icons=["house", "caret-right-fill",  "caret-right-fill",  "caret-right-fill", "caret-right-fill","envelope"],  # optional
+            options=["Home", "Morse", "Murciélago", "Cenit Polar", "Cajón", "Palitos", "Electrocardiograma", "Contacto"],  # required
+            icons=["house", "caret-right-fill",  "caret-right-fill",  "caret-right-fill", "caret-right-fill",  "caret-right-fill", "caret-right-fill","envelope"],  # optional
             menu_icon="upc-scan",  # optional
             default_index=0,  # optional
         )
@@ -335,6 +439,35 @@ if selected == "Cajón":
             #st.image(image,width=None, use_column_width=True )
             st.image(text_output, width=40, use_column_width=False)
 
+if selected == "Palitos":
+    st.title(f"Clave {selected}")
+    choice = st.selectbox("Select Translation Direction", ["Text to Palitos"])
+
+    if choice == "Text to Palitos":
+        text_input = st.text_input("Ingrese el texto a codificar")
+        if st.button("Codificar"):
+            text_without_accents=remove_spanish_accents(text_input)
+            text_without_marks=remove_punctuation(text_without_accents)
+            text_output = text_to_palitos(text_without_marks)
+            st.write("Texto codificado:")
+            #st.write(text_output)
+            #st.image(image,width=None, use_column_width=True )
+            st.image(text_output, width=40, use_column_width=False)
+
+if selected == "Electrocardiograma":
+    st.title(f"Clave {selected}")
+    choice = st.selectbox("Select Translation Direction", ["Text to Electrocardiograma"])
+
+    if choice == "Text to Electrocardiograma":
+        text_input = st.text_input("Ingrese el texto a codificar")
+        if st.button("Codificar"):
+            text_without_accents=remove_spanish_accents(text_input)
+            text_without_marks=remove_punctuation(text_without_accents)
+            text_output = text_to_electro(text_without_marks)
+            st.write("Texto codificado:")
+            st.write(text_output)
+
+            st.line_chart(text_output)
 
 
 if selected == "opcion2":
