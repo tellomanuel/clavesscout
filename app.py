@@ -176,6 +176,37 @@ palitos_dict = {
     ' ': 'clave_palitos/_espacio.png',
 }
 
+cruces_dict = {
+    'A': '7cruces/a.png', 
+    'B': '7cruces/b.png', 
+    'C': '7cruces/c.png',     
+    'D': '7cruces/d.png', 
+    'E': '7cruces/e.png', 
+    'F': '7cruces/f.png', 
+    'G': '7cruces/g.png', 
+    'H': '7cruces/h.png', 
+    'I': '7cruces/i.png', 
+    'J': '7cruces/j.png',    
+    'K': '7cruces/k.png',
+    'L': '7cruces/l.png', 
+    'M': '7cruces/m.png', 
+    'N': '7cruces/n.png', 
+    'Ñ': '7cruces/nn.png',    
+    'O': '7cruces/o.png',
+    'P': '7cruces/p.png', 
+    'Q': '7cruces/q.png', 
+    'R': '7cruces/r.png', 
+    'S': '7cruces/s.png',    
+    'T': '7cruces/t.png',
+    'U': '7cruces/u.png', 
+    'V': '7cruces/v.png', 
+    'W': '7cruces/w.png', 
+    'X': '7cruces/x.png',    
+    'Y': '7cruces/y.png',
+    'Z': '7cruces/z.png',
+    ' ': '7cruces/espacio.png',
+}
+
 electro_dict = {
     'A': 27, 
     'B': 26, 
@@ -319,6 +350,21 @@ def text_to_palitos(text_to_encode):
 
     return URL_images_encoded
 
+
+# 7 CCRUCES
+# Convertir texto a 7 ccruces
+def text_to_cruces(text_to_encode):
+    URL_images_encoded = []
+    for char in text_to_encode:
+        if char.upper() in cruces_dict:
+            imagen_char =cruces_dict[char.upper()]
+            URL_images_encoded.append(imagen_char)
+           
+        else:
+            URL_images_encoded += char
+
+    return URL_images_encoded
+
 # ELECTROCARDIOGRAMA
 # Convertir texto a electrocardiograma
 def text_to_electro(text_to_encode):
@@ -351,8 +397,8 @@ st.sidebar.image(image,width=None, use_column_width=None )
 with st.sidebar:
     selected = option_menu(
             menu_title="Claves  Scout",  # required
-            options=["Home", "Morse", "Murciélago", "Cenit Polar", "Cajón", "Palitos", "Electrocardiograma", "Contacto"],  # required
-            icons=["house", "caret-right-fill",  "caret-right-fill",  "caret-right-fill", "caret-right-fill",  "caret-right-fill", "caret-right-fill","envelope"],  # optional
+            options=["Home", "Morse", "Murciélago", "Cenit Polar", "Cajón", "Palitos", "Electrocardiograma", "7 cruces", "Contacto"],  # required
+            icons=["house", "caret-right-fill",  "caret-right-fill",  "caret-right-fill", "caret-right-fill", "caret-right-fill", "caret-right-fill", "caret-right-fill","envelope"],  # optional
             menu_icon="upc-scan",  # optional
             default_index=0,  # optional
         )
@@ -468,6 +514,22 @@ if selected == "Electrocardiograma":
             st.write(text_output)
 
             st.line_chart(text_output)
+
+
+if selected == "7 cruces":
+    st.title(f"Clave {selected}")
+    choice = st.selectbox("Select Translation Direction", ["Text to 7 cruces"])
+
+    if choice == "Text to 7 cruces":
+        text_input = st.text_input("Ingrese el texto a codificar")
+        if st.button("Codificar"):
+            text_without_accents=remove_spanish_accents(text_input)
+            text_without_marks=remove_punctuation(text_without_accents)
+            text_output = text_to_cruces(text_without_marks)
+            st.write("Texto codificado:")
+            #st.write(text_output)
+            #st.image(image,width=None, use_column_width=True )
+            st.image(text_output, width=40, use_column_width=False)
 
 
 if selected == "opcion2":
