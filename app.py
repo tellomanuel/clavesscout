@@ -252,8 +252,12 @@ def remove_punctuation(text):
 # Quitar acentos
 def remove_spanish_accents(text):
     # Use unicodedata.normalize to remove accents from the text
-    normalized_text = unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('utf-8')
-    return normalized_text
+    text=text.upper()
+    texto_2 = text.replace('Ñ','-&-')
+    normalized_text = unicodedata.normalize('NFKD', texto_2).encode('ASCII', 'ignore').decode('utf-8')
+    normalized_text_2 = normalized_text.replace('-&-','Ñ')	
+
+    return normalized_text_2
 
 # MORSE
 # Convertir texto a morse
